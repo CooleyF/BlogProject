@@ -1,0 +1,53 @@
+﻿@model BlogProject.Models.BlogPost
+@using BlogProject.Models;
+
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+</p>
+
+}
+
+
+<section class="ftco-section">
+    <div class="container mt-5">
+        <div class="row justify-content-center mb-5 pb-5">
+            <div class="col-md-7 text-center heading-section ftco-animate">
+                <span>@Model.Abstract</span>
+                <h2>@Model.Title</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+
+
+                @Html.Raw(Model.BlogBody)
+
+                <img class="img-responsive" src="@Model.MediaURL">
+
+
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            using (Html.BeginForm("Create", "Comments", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("BlogPostId", Model.ID);
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.TextArea("Area", new { @class = "Form-control" });
+                        <button class="btn btn-danger" type="submit" value="Post"> Post Comment</button>
+                    </div>
+
+                </div>
+            }
+
+        }
+
+
+    </div>
+</section>
