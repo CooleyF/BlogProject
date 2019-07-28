@@ -769,6 +769,7 @@
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Uploads\author-1.jpg" />
     <Content Include="Uploads\black1.jpg" />
+    <Content Include="Uploads\cooleyimage.jpeg" />
     <Content Include="Uploads\image_3.jpg" />
     <Content Include="Uploads\work-2.jpg" />
     <Content Include="Uploads\work-4.jpg" />

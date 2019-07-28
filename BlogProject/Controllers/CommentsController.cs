@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 namespace BlogProject.Controllers
 {
     [RequireHttps]
-    [Authorize(Roles = "Moderator, Admin")]
+    
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -24,7 +24,7 @@ namespace BlogProject.Controllers
         {
            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
        }
-
+        [Authorize(Roles = "Moderator, Admin")]
         // GET: Comments
         public ActionResult Index()
 
@@ -49,7 +49,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Comments/Create
-        [Authorize]
+        
         public ActionResult Create()
         {
             ViewBag.AuthorID = new SelectList(db.Users, "Id", "FirstName");
@@ -79,7 +79,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Comments/Edit/5
-
+        [Authorize(Roles = "Moderator, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -100,6 +100,7 @@ namespace BlogProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Moderator, Admin")]
         public ActionResult Edit([Bind(Include = "ID,BlogPostID,AuthorID,Body,Created,Updated,UpdateReason")] Comment comment)
         {
             if (ModelState.IsValid)

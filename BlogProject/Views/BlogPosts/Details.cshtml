@@ -162,7 +162,7 @@
                                 </li>
                             </ul>
                             <div>
-                                @if (User.Identity.IsAuthenticated)
+                                @if (User.IsInRole("Admin, Moderator"))
                                 {
                                     <p>
                                         @Html.ActionLink("Edit", "Index", "Comments")
