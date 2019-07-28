@@ -29,6 +29,8 @@ namespace BlogProject.Models
         [AllowHtml]
         public string BlogBody { get; set; }
 
+        public string UpdateReason { get; set; }
+
         public string MediaURL { get; set; }
         public bool Published { get; set;  }
         //virtual Nav

@@ -10,6 +10,7 @@ using BlogProject.Models;
 
 namespace BlogProject.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {
@@ -25,7 +26,7 @@ namespace BlogProject.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        
         public ApplicationSignInManager SignInManager
         {
             get

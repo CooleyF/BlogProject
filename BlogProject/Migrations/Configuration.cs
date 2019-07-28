@@ -32,15 +32,15 @@ namespace BlogProject.Migrations
                 roleManager.Create(new IdentityRole { Name = "Admin" });
             }
 
-            if (!context.Roles.Any(r => r.Name == "Guest"))
+            if (!context.Roles.Any(r => r.Name == "Moderator"))
             {
-                roleManager.Create(new IdentityRole { Name = "Guest" });
+                roleManager.Create(new IdentityRole { Name = "Moderator" });
             }
 
-            if (!context.Roles.Any(r => r.Name == "Member"))
-            {
-                roleManager.Create(new IdentityRole { Name = "Member" });
-            } 
+            //if (!context.Roles.Any(r => r.Name == "Member"))
+            //{
+            //    roleManager.Create(new IdentityRole { Name = "Member" });
+            //} 
             #endregion
             //Create user roles
             UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -50,6 +50,7 @@ namespace BlogProject.Migrations
             {
                 ApplicationUser adminUser = new ApplicationUser()
                 {
+                    DisplayName = "Admin",
                     UserName = "Jecool17@gmail.com",
                     Email = "Jecool17@gmail.com",
                 };
@@ -57,27 +58,28 @@ namespace BlogProject.Migrations
                 userManager.Create(adminUser, "jeco4097");
             }
 
-            if (!context.Users.Any(r => r.UserName == "Guest@myblog.com"))
+            if (!context.Users.Any(r => r.UserName == "Cooley.e.james@Gmail.com"))
             {
                 ApplicationUser guestUser = new ApplicationUser()
                 {
-                    UserName = "Guest@myblog.com",
-                    Email = "Guest@myblog.com",
+                    DisplayName = "Moderator",
+                    UserName = "Cooley.e.james@gmail.com",
+                    Email = "Cooley.e.james@gmail.com",
                 };
 
-                userManager.Create(guestUser, "P@ssw0rd");
+                userManager.Create(guestUser, "Jeco4097");
             }
 
-            if (!context.Users.Any(r => r.UserName == "Member@myblog.com"))
-            {
-                ApplicationUser memberUser = new ApplicationUser()
-                {
-                    UserName = "Member@myblog.com",
-                    Email = "Member@myblog.com",
-                };
+            //if (!context.Users.Any(r => r.UserName == "Member@myblog.com"))
+            //{
+            //    ApplicationUser memberUser = new ApplicationUser()
+            //    {
+            //        UserName = "Member@myblog.com",
+            //        Email = "Member@myblog.com",
+            //    };
 
-                userManager.Create(memberUser, "P@ssw0rd");
-            }
+            //    userManager.Create(memberUser, "P@ssw0rd");
+            //}
             #endregion
             //if email is equal to application user then  assign role to user ID
             #region User ID initialization
@@ -88,18 +90,18 @@ namespace BlogProject.Migrations
             }
 
 
-            ApplicationUser GuestU = context.Users.FirstOrDefault(r => r.Email == "Guest@myblog.com");
+            ApplicationUser GuestU = context.Users.FirstOrDefault(r => r.Email == "Cooley.e.james@gmail.com");
             if (admU != null)
             {
-                userManager.AddToRole(admU.Id, "Guest");
+                userManager.AddToRole(admU.Id, "Moderator");
             }
 
 
-            ApplicationUser MemberU = context.Users.FirstOrDefault(r => r.Email == "Member@myblog.com");
-            if (admU != null)
-            {
-                userManager.AddToRole(admU.Id, "Member");
-            } 
+            //ApplicationUser MemberU = context.Users.FirstOrDefault(r => r.Email == "Member@myblog.com");
+            //if (admU != null)
+            //{
+            //    userManager.AddToRole(admU.Id, "Member");
+            //} 
             #endregion
 
 

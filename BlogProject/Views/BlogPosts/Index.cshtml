@@ -1,37 +1,125 @@
-﻿
-@model IEnumerable<BlogProject.Models.BlogPost>
-@using BlogProject.Models;
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<BlogProject.Models.BlogPost>
+
 @{
     ViewBag.Title = "Index";
 }
 @if (User.IsInRole("Admin"))
 {
-   <p>
+    <p>
 
-    @Html.ActionLink("Create New", "Create")
-</p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 }
 
-<div class="row">
-    @foreach (var post in Model)
-    {
-        <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-                <a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})" class="block-20" style="background-image: url('@Url.Content(post.MediaURL)');">
-                </a>
-                <div class="text p-4 d-block">
-                    <div class="meta mb-3">
-                        <div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})">@post.Created.ToString("dddd, MMMM d, yyyy")</a></div>
-                        <div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})">James Cooley</a></div>
-                        @*<div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})" class="meta-chat"><span class="icon-chat"></span> 3</a></div>*@
-                    </div>
-                    <h3 class="heading"><a href="#">@post.Abstract</a></h3>
-                </div>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/images/cover_img_4.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-end justify-content-center">
+            <div class="col-md-9 ftco-animate pb-5 text-center">
+                <h1 class="mb-3 bread">Blog Posts</h1>
+                @*<p class="breadcrumbs"><span class="mr-2"><a href="home">Blog Posts <i class="ion-ios-arrow-forward"></i></a></span> <span>@Model.Title<i class="ion-ios-arrow-forward"></i></span></p>*@
             </div>
         </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 order-lg-last ftco-animate">
+                <p>
+
+
+                    <img src="~/images/black1.jpg" alt="" class="img-fluid">
+
+
+                </p>
+
+            </div>
+                <div class="col-lg-4 sidebar pr-lg-5 ftco-animate ">
+                    <div class="sidebar-box bg-dark">
+                        @using (Html.BeginForm("Index", "BlogPosts", FormMethod.Get, htmlAttributes: new { @class = "form" }))
+                        {
+                            <form type class="search-form">
+                                <div class="form-group">
+                                    <span class="icon icon-search"></span>
+                                    <input type="text" class="form-control" input id="searchStr" name="searchStr" placeholder="Type a keyword ">
+                                </div>
+                            </form>
+                        }
+
+                    </div>
+                </div>
 
 
 
-    }
 
-</div>
+            
+         </div>
+    </div>
+</section>
+
+               
+
+                <div class="row">
+                    @foreach (var post in Model)
+                    {
+
+                        if (post.MediaURL != null)
+                        {
+
+                            <div class="col-md-4 ftco-animate">
+                                <div class="blog-entry">
+                                    <a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})" class="block-20" style="background-image: url('@Url.Content(post.MediaURL)');">
+                                    </a>
+                                    <div class="text p-4 d-block">
+                                        <div class="meta mb-3">
+                                            <div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})">@post.Created.ToString("dddd, MMMM d, yyyy")</a></div>
+                                            <div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})">James Cooley</a></div>
+                                            @*<div><a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug})" class="meta-chat"><span class="icon-chat"></span> 3</a></div>*@
+                                        </div>
+                                        <h3 class="heading"><a href="#">@post.Abstract</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        }
+
+
+
+
+
+
+
+                    }
+
+
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="block-18">
+                            <ul>
+
+
+                                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchStr = ViewBag.Search }))
+
+
+                                @*<li><a href="#">&lt;</a></li>
+                                    <li class="active"><span>1</span></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&gt;</a></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>

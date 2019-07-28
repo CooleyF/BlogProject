@@ -19,7 +19,7 @@ namespace BlogProject.Models
         public ApplicationUser()
         {
             this.BlogComments = new HashSet<Comment>();
-            BlogPost = new HashSet<BlogPost>();
+            
         }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

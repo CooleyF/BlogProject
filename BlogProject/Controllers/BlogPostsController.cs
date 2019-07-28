@@ -13,10 +13,12 @@ using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BlogProject.Controllers
 {
-
+    [RequireHttps]
     [Authorize(Roles = "Admin")]
     public class BlogPostsController : Controller
     {
@@ -26,11 +28,38 @@ namespace BlogProject.Controllers
 
         // GET: BlogPosts
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(int? page, string searchStr)
         {
-            var blogPosts = db.BlogPosts.Include(b => b.Author);
-            return View(blogPosts.Where(b => b.Published).ToList());
+            ViewBag.Search = searchStr;
+
+            var blogPosts = IndexSearch(searchStr);
+
+            var pageSize = 3; /*display 3 blogpost at a time*/
+            var pageNumber = (page ?? 1);  /*if page number is null  set page number to 1*/
+            return View(blogPosts.ToPagedList(pageNumber, pageSize));
         }
+
+
+
+        public IQueryable<BlogPost> IndexSearch(string searchStr)
+        {
+            var result = db.BlogPosts.Where(b => b.Published).AsQueryable();
+            if (searchStr != null)
+            {
+                result = result.Where(p => p.Title.Contains(searchStr) ||
+                                      p.BlogBody.Contains(searchStr) ||
+                                      p.Abstract.Contains(searchStr) ||
+                                      p.Comments.Any(c => c.Body.Contains(searchStr) ||
+                                                     c.Author.FirstName.Contains(searchStr) ||
+                                                     c.Author.LastName.Contains(searchStr) ||
+                                                     c.Author.DisplayName.Contains(searchStr) ||
+                                                     c.Author.Email.Contains(searchStr)));
+
+            }
+            return result.OrderByDescending(p => p.Created);
+
+        }
+
 
         // GET: BlogPosts/Details/5
         [AllowAnonymous]
@@ -155,7 +184,7 @@ namespace BlogProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         
-        public ActionResult Edit([Bind(Include = "ID,AuthorID,Created,Updated,Title,Slug,BlogBody,MediaURL,Published,Abstract")] BlogPost blogPost, HttpPostedFileBase image)
+        public ActionResult Edit([Bind(Include = "ID,AuthorID,Created,Updated,Title,Slug,BlogBody,MediaURL,Published,Abstract, UpdateReason")] BlogPost blogPost, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -170,7 +199,7 @@ namespace BlogProject.Controllers
                     
                         var fileName = Path.GetFileName(image.FileName);
                         image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), fileName));
-                        blogPost.MediaURL = "~/Uploads/" + fileName;
+                        blogPost.MediaURL = "/Uploads/" + fileName;
                     
                    
                 }
@@ -202,7 +231,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: BlogPosts/Delete/5
-        
+        [Authorize (Roles ="Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

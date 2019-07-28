@@ -12,7 +12,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BlogProject.Controllers
 {
-    
+    [RequireHttps]
+    [Authorize(Roles = "Moderator, Admin")]
     public class CommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -48,6 +49,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Comments/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.AuthorID = new SelectList(db.Users, "Id", "FirstName");
@@ -65,17 +67,19 @@ namespace BlogProject.Controllers
             if (ModelState.IsValid)
             {   /*Finds user email and assigns it to authorID*/
                 comment.AuthorID = User.Identity.GetUserId();
-                
+                comment.Created = DateTimeOffset.Now;
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 
             }
-            //var slug = db.BlogPosts.Find(comment.BlogPostID).Slug;
-            ViewBag.AuthorID = new SelectList(db.Users, "Id", "FirstName", comment.AuthorID);
-            return RedirectToAction("Details", "BlogPost", new { slug = db.BlogPosts.Find(comment.BlogPostID).Slug }) ;
+            var slug = db.BlogPosts.Find(comment.BlogPostID).Slug;
+            
+            return RedirectToAction("Details", "BlogPosts", new {slug}) ;
+
         }
 
         // GET: Comments/Edit/5
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -100,6 +104,7 @@ namespace BlogProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                comment.Updated = DateTimeOffset.Now;
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

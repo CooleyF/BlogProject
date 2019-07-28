@@ -16,6 +16,7 @@ using BlogProject.ViewModels;
 
 namespace BlogProject.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
@@ -155,7 +156,7 @@ namespace BlogProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, DisplayName = model.DisplayName};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -165,9 +166,35 @@ namespace BlogProject.Controllers
                     // Send an email with this link
                      string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                      var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    try
+                    {
+                        var from = WebConfigurationManager.AppSettings["emailfrom"];
+                        var body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
+
+                        var email = new MailMessage(from, model.Email)
+                        {
+                            Subject = "Confirm Email",
+                            Body = body,
+                            IsBodyHtml = true
+                        };
+
+                        var svc = new PersonalEmail();
+                        await svc.SendAsync(email);
+
+                        return RedirectToAction("ConfirmationSent", "Account");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        await Task.FromResult(0);
+                    }
+
+
+
+
                 }
                 AddErrors(result);
             }

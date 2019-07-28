@@ -10,7 +10,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace BlogProject.Controllers
-{
+{   [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -45,7 +45,7 @@ namespace BlogProject.Controllers
             };
             var svc = new PersonalEmail();
             await svc.SendAsync(emailMessage);
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
