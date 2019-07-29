@@ -91,9 +91,9 @@ namespace BlogProject.Migrations
 
 
             ApplicationUser GuestU = context.Users.FirstOrDefault(r => r.Email == "Cooley.e.james@gmail.com");
-            if (admU != null)
+            if (GuestU != null)
             {
-                userManager.AddToRole(admU.Id, "Moderator");
+                userManager.AddToRole(GuestU.Id, "Moderator");
             }
 
 

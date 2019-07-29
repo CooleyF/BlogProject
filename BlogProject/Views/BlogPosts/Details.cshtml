@@ -100,7 +100,7 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 order-lg-last ftco-animate">
+            <div class="col-lg-8 order-lg-last ftco-animate bg-dark">
                 <h2 class="mb-3">@Model.Abstract</h2>
                 <p>
                     @Html.Raw(Model.BlogBody)
@@ -162,14 +162,13 @@
                                 </li>
                             </ul>
                             <div>
-                                @if (User.IsInRole("Admin, Moderator"))
+                                @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
                                 {
                                     <p>
-                                        @Html.ActionLink("Edit", "Index", "Comments")
+                                        @Html.ActionLink("Edit", "Edit", "Comments", new { id = comment.ID}, null)
                                     </p>
                                 }
-
-
+                             
                             </div>
                         }
 
