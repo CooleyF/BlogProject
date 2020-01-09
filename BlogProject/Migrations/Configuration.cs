@@ -58,17 +58,17 @@ namespace BlogProject.Migrations
                 userManager.Create(adminUser, "jeco4097");
             }
 
-            if (!context.Users.Any(r => r.UserName == "Cooley.e.james@Gmail.com"))
-            {
-                ApplicationUser guestUser = new ApplicationUser()
-                {
-                    DisplayName = "Moderator",
-                    UserName = "Cooley.e.james@gmail.com",
-                    Email = "Cooley.e.james@gmail.com",
-                };
+            //if (!context.Users.Any(r => r.UserName == "Cooley.e.james@Gmail.com"))
+            //{
+            //    ApplicationUser guestUser = new ApplicationUser()
+            //    {
+            //        DisplayName = "Moderator",
+            //        UserName = "Cooley.e.james@gmail.com",
+            //        Email = "Cooley.e.james@gmail.com",
+            //    };
 
-                userManager.Create(guestUser, "Jeco4097");
-            }
+            //    userManager.Create(guestUser, "Jeco4097");
+            //}
 
             //if (!context.Users.Any(r => r.UserName == "Member@myblog.com"))
             //{
@@ -90,11 +90,11 @@ namespace BlogProject.Migrations
             }
 
 
-            ApplicationUser GuestU = context.Users.FirstOrDefault(r => r.Email == "Cooley.e.james@gmail.com");
-            if (GuestU != null)
-            {
-                userManager.AddToRole(GuestU.Id, "Moderator");
-            }
+            //ApplicationUser GuestU = context.Users.FirstOrDefault(r => r.Email == "Cooley.e.james@gmail.com");
+            //if (GuestU != null)
+            //{
+            //    userManager.AddToRole(GuestU.Id, "Moderator");
+            //}
 
 
             //ApplicationUser MemberU = context.Users.FirstOrDefault(r => r.Email == "Member@myblog.com");
