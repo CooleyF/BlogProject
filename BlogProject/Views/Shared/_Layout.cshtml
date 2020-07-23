@@ -57,7 +57,7 @@
                 <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
                 <div class="js-fullheight colorlib-table">
                     <div class="img" style="background-image: url('../../images/img_bg_4.jpg');"></div>
-                    <div class="colorlib-table js-fullheight">
+                    <div class="colorlib-table-cell js-fullheight">
                         <div class="row no-gutters">
                             <div class="col-md-12 text-center">
                                 @*<h1 class="mb-4"><a href="" class="logo">CooLeyCode</a></h1>*@
@@ -66,7 +66,7 @@
                                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                                     <li>@Html.ActionLink("Blog Posts", "Index", "BlogPosts")</li>
                                     <li> @Html.ActionLink("Contact Me!", "Contact", "Home")</li>
-
+            
 
                                 </ul>
                             </div>
@@ -85,11 +85,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="colorlib-navbar-brand">
-                                    <a class="colorlib-logo pull-left" href="home" >
-                                        <span class="logo-img" style="background-image: url('../../favicon.png');box-shadow: inset -5px -2px 20px 3px black;"></span>ooLeyCode BlogSite
+                                    <a class="colorlib-logo" href="home"><span class="logo-img" style="background-image: url('../../favicon.png');box-shadow: inset -5px -2px 20px 3px black;"></span>ooLeyCode BlogSite                                        
                                     </a>
                                 </div>
-                                <a href="@Url.Action("index","home")" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+                                <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
                             </div>
                         </div>
                     </div>
@@ -112,17 +111,31 @@
                     <div class="container">
                         <div class="row mb-5 justify-content-center">
                             <div class="col-md-5 text-center">
-                                
+                                <div class="ftco-footer-widget mb-5">
+                                    <ul class="ftco-footer-social list-unstyled">
+                                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                                    </ul>
+                                </div>
                                 <div class="ftco-footer-widget">
                                     <h2 class="mb-3">Contact Us</h2>
                                     @*<p class="h3 email"><a href="@Url.Action("Contact", "Home", new {})">jecool17@gmail.com</a></p>*@
-                                    @Html.ActionLink("Cooley.E.James@gmail.com", "Contact", "Home")
-                                    <br />
-                                    <a href="Https://cooleyportfolio.azurewebsites.net">Portfolio</a>
+                                        @Html.ActionLink("jecool17@gmail.com", "Contact", "Home")
                                 </div>
                             </div>
                         </div>
-                       
+                        @*<div class="row">
+                            <div class="col-md-12 text-center">
+
+                                <p>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;
+                                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true" style="color: red;"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </p>
+                            </div>
+                        </div>*@
                     </div>
 
                 </footer>
@@ -140,7 +153,7 @@
 
 
 
-    @*<script src="~/js/jquery.min.js"></script>
+        @*<script src="~/js/jquery.min.js"></script>
         <script src="~/js/jquery-migrate-3.0.1.min.js"></script>
         <script src="~/js/popper.min.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
@@ -159,7 +172,6 @@
         <script src="~/js/main.js"></script>*@
 
     @Scripts.Render("~/js/jquery.min.js")
-
     @Scripts.Render("~/js/jquery-migrate-3.0.1.min.js")
     @Scripts.Render("~/js/popper.min.js")
     @Scripts.Render("~/js/bootstrap.min.js")
@@ -176,22 +188,22 @@
     @Scripts.Render("~/js/google-map.js")
     @Scripts.Render("~/js/main.js")
     @Scripts.Render("~/js/jquery.stellar.min.js")
-
+   
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             tinymce.init({
                 selector: '#BlogBody'
             });
         });
 
-        $(function () {
+        $(function() {
             tinymce.init({
                 selector: '#Body'
             });
         });
-
+       
     </script>
 </body>
 </html>

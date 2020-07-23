@@ -62,7 +62,6 @@ namespace BlogProject.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -379,10 +378,10 @@ namespace BlogProject.Controllers
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-            //if (loginInfo == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
+            if (loginInfo == null)
+            {
+                return RedirectToAction("Login");
+            }
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
